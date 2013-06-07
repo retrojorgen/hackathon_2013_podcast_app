@@ -1,25 +1,35 @@
 <?php
 header('Content-type: application/json');
-$xml = simplexml_load_file("http://nerdist.libsyn.com/rss");
+
 
 date_default_timezone_set("Europe/Belgrade");
 
-foreach($xml->children() as $child)
-  {
-  	foreach($child as $element => $value) {
-  		if($element == 'item') {
-  			$value_array = xml2array($value);
+$podcastArray = jsonPodcast("http://localhost/podcast-app/app/rss-feeds/screwattack.rss", $podcastArray);
+$podcastArray = jsonPodcast("http://localhost/podcast-app/app/rss-feeds/nerdist.rss", $podcastArray);
 
-        $pubDate = strftime("%Y-%m-%d %H:%M:%S", strtotime($value_array['pubDate']));
+print json_encode($podcastArray);
 
-  			$podcastArray[] = array(
-  				"title" => $value_array['title'],
-  				"date" => $pubDate,
-  				"url" => $value_array['enclosure']['@attributes']['url']
-				);
-  		}
-  	}
-  }
+function jsonPodcast($url, $podcastArray) {
+$xml = simplexml_load_file($url);
+  foreach($xml->children() as $child)
+    {
+    	foreach($child as $element => $value) {
+    		if($element == 'item') {
+    			$value_array = xml2array($value);
+
+          $pubDate = strftime("%Y-%m-%d %H:%M:%S", strtotime($value_array['pubDate']));
+
+    			$podcastArray[] = array(
+    				"title" => $value_array['title'],
+    				"date" => $pubDate,
+    				"url" => $value_array['enclosure']['@attributes']['url']
+  				);
+    		}
+    	}
+    }
+    return $podcastArray;
+  
+}
 
 function xml2array ( $xmlObject, $out = array () )
 {
@@ -28,5 +38,5 @@ function xml2array ( $xmlObject, $out = array () )
 
     return $out;
 }
-	print json_encode($podcastArray);
+	
 ?>

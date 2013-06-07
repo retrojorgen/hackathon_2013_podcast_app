@@ -3,36 +3,36 @@
 <head>
   <meta charset="utf-8">
   <title>Google Phone Gallery</title>
-  <link rel="stylesheet" href="css/app.css">
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
-  <script src="lib/xml-to-json/xml.js"></script>
+  <link rel="stylesheet/less" type="text/css" href="css/styles.less" />
+  <script type="text/javascript">
+      less = {
+          env: "development", // or "production"
+      };
+  </script>  
+  <script src="lib/lessjs/less-1.3.3.min.js"></script>
+
+  <script src="lib/angular/angular.js"></script>
   <script src="js/controllers.js"></script>
+
+  
 </head>
 <body ng-controller="PhoneListCtrl">
-  <div class="loading message">
-    {{helpMessage}}
-  </div>  
+
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span2">
         <!--Sidebar content-->
 
-        Search: <input ng-model="query">
-        Sort by:
-        <select ng-model="orderProp">
-          <option value="title">Alphabetical</option>
-          <option value="date">Newest</option>
-        </select>
+      <button class="action" href="" ng-click="predicate = 'title'; reverse=!reverse">Name</button>
+      <button class="action" href ng-click="predicate = 'date'; reverse=!reverse">Date</button>
 
       </div>
       <div class="span10">
         <!--Body content-->
 
         <ul class="phones">
-          <li ng-repeat="phone in phones | filter:query | orderBy:orderProp">
-            {{phone.title}} - {{phone.date}}
+          <li ng-repeat="phone in phones | filter:query | orderBy:predicate:reverse">
+            {{phone.title}} - {{phone.date}} 
             <p>{{phone.url}}</p>
           </li>
         </ul>

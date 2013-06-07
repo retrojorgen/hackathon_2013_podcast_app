@@ -1,0 +1,36 @@
+/** FONTS **/
+@import url(http://fonts.googleapis.com/css?family=Roboto+Slab);
+@roboto : 'Roboto Slab';
+
+/** COLORS **/
+@odd-list : #222;
+@even-list : #444;
+@text-color : #FFFFFF;
+
+html,
+body {
+	font-family: @roboto;
+	margin: 0;
+	padding: 0;
+}
+.action {
+	float: left;
+	width: 50%;
+	padding: 10px;
+	border: 1% solid #111;
+}
+.phones {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	color: @text-color;
+	li {
+		padding: 10px;
+		&:nth-child(odd) {
+			background-color: @odd-list;
+		}
+		&:nth-child(even) {
+			background-color: @even-list;
+		}
+	}
+}

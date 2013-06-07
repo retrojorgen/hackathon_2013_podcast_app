@@ -5,12 +5,13 @@
 function PhoneListCtrl($scope, $http) {
   $http.get('http://localhost/podcast-app/backend/index.php').success(function(data) {
     $scope.phones = data;
-    $scope.helpMessage = "";
-    _.each($scope.phones, function(phone) {
-      console.log(phone.date);
-    });
   });
   $scope.helpMessage = "loading, yo";
-  $scope.orderProp = 'date';
+  $scope.predicate = '-date';
 }
 //PhoneListCtrl.$inject = ['$scope', '$http'];
+
+var dateFromMySQLTimestamp = function (mySQLTimestampString) {
+  mySQLTimestampString = mySQLTimestampString.split(/[- :]/);
+  return new Date(mySQLTimestampString[0], mySQLTimestampString[1]-1, mySQLTimestampString[2], mySQLTimestampString[3], mySQLTimestampString[4], mySQLTimestampString[5]);
+}
